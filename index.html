@@ -1,0 +1,310 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Milkbook · Dairy ledger</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f5f7f5;color:#1c332a;font:16px/1.45 "Segoe UI",Arial,sans-serif}header{height:76px;background:white;border-bottom:1px solid #dbe2dc;display:flex;align-items:center;gap:18px;padding:0 max(5vw,20px)}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #72ab81}header button,.plain{border:0;background:transparent;color:#265e45;padding:6px}header button{font-size:23px}.brand{display:flex;align-items:center;gap:10px;font-size:25px;font-weight:720;letter-spacing:-1px}.logo{background:#20583f;color:white;border-radius:12px;padding:6px;width:37px;height:40px}.today{margin-left:auto;color:#52665a;font-size:14px}main{max-width:1190px;margin:34px auto;padding:0 24px}.hero{background:#164733;color:#fff;padding:27px 35px;border-radius:18px;position:relative;overflow:hidden;margin-bottom:23px}.hero p{margin:0;color:#d2e6d8}.hero small,.kicker{font-size:12px;font-weight:700;letter-spacing:2px}.hero h1{font:normal 44px/1.13 Georgia,serif;margin:6px 0 9px}.art{position:absolute;right:0;bottom:0;height:100%;width:32%;opacity:.82}.grid{display:grid;grid-template-columns:1.7fr 1fr;gap:22px;align-items:start}.card{background:white;border:1px solid #dce4dd;border-radius:16px;padding:25px;margin-bottom:21px}.card h2{font-size:21px;letter-spacing:-.6px;margin:0}.heading{display:flex;align-items:center;gap:12px;margin-bottom:21px}.icon{width:39px;height:39px;border-radius:12px;background:#e8f2e9;color:#296443;display:grid;place-items:center;font-size:22px}.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}label,legend{font-size:14px;font-weight:600;color:#405247}label{display:block;margin-bottom:16px}input,select,.segments{width:100%;height:44px;border:1px solid #cfdad2;border-radius:8px;background:white;color:#233e30;padding:0 11px;margin-top:6px}select{appearance:none;padding-right:30px;background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10'%3E%3Cpath d='m2 2 5 5 5-5' fill='none' stroke='%23596c5f' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center}.segments{display:flex;padding:3px;background:#f3f6f2;gap:4px}.segments button{flex:1;border:0;background:transparent;border-radius:5px;color:#4c6253;font-size:14px}.segments button.active{background:white;box-shadow:0 1px 4px #becdc3;color:#215c3c;font-weight:650}.btn{border:0;background:#236343;color:white;border-radius:8px;font-weight:650;padding:11px 18px}.btn.secondary{background:#e6f0e7;color:#235b3c}.wide{width:100%}.split{display:flex;justify-content:space-between;align-items:baseline;gap:10px}.split .plain{font-size:13px;font-weight:650}.muted{color:#637468;font-size:14px}.totals{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}.metric{flex:1;min-width:110px;background:#edf4ee;border-radius:9px;padding:14px}.metric strong{display:block;font-size:23px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px 8px;border-bottom:1px solid #e1e7e1}th{color:#53695a;background:#f5f8f5}.empty{text-align:center;padding:22px;color:#617466}.menu{position:absolute;z-index:4;left:4vw;top:63px;background:white;border:1px solid #cfdad2;border-radius:12px;padding:7px;box-shadow:0 8px 30px #14332422}.menu button{display:block;text-align:left;width:100%;padding:10px 18px;border:0;background:white;border-radius:6px}.menu button:hover{background:#eef4ee}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#143c2a;color:white;border-radius:9px;padding:12px 22px;z-index:8}dialog{width:min(460px,94vw);border:1px solid #d3ded6;border-radius:16px;padding:24px}dialog::backdrop{background:#17372966}button:hover{filter:brightness(.96)}@media(max-width:780px){.grid{grid-template-columns:1fr;gap:0}.hero{padding:22px}.art{opacity:.35}.hero p,.hero h1{position:relative;z-index:1}main{padding:0 14px;margin-top:18px}.card{padding:18px}.today{font-size:12px}.hero h1{font-size:36px}.row{gap:10px}}@media(max-width:430px){.row{grid-template-columns:1fr}.art{display:none}}
+.lookup{position:relative;margin-left:auto;width:min(340px,38vw)}.lookup input{margin:0}.lookup #results{position:absolute;z-index:9;background:white;box-shadow:0 6px 24px #17372933;border-radius:8px;padding:8px;width:max(100%,230px);max-height:55vh;overflow:auto;right:0}.match{display:block;width:100%;padding:9px;text-align:left;border:0;background:#f2f6f2;margin:4px 0;color:#203b2c;border-radius:6px}.warning{border:2px solid #bd3939;background:#fff4f3;color:#802121;padding:16px;border-radius:10px}.danger{background:#ad2b2b}dialog{max-height:85vh;overflow:auto}.today{margin-left:0}@media(max-width:650px){header .today{display:none}.lookup{width:auto;flex:1}.lookup input{font-size:14px}header{gap:10px}} </style></head><body><header><button id="toggle" aria-label="Open navigation" aria-expanded="false">☰</button><div class="brand"><svg class="logo" viewBox="0 0 30 32" aria-hidden="true"><path d="M10 3h10v4l-1 2 4 8v11H7V17l4-8-1-2zM10 7h10M8 18q4-4 8 0t6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg>Milkbook</div><div class="lookup"><input id="lookup" type="search" autocomplete="off" placeholder="Search name or customer ID" aria-label="Search customers by name or ID"><div id="results" hidden></div></div><span class="today" id="today"></span></header><nav id="menu" class="menu" hidden></nav><main><section class="hero"><small>DAIRY LEDGER</small><h1 id="title"></h1><p id="subtitle"></p><svg class="art" aria-hidden="true" viewBox="0 0 340 150" preserveAspectRatio="xMaxYMax slice"><circle cx="244" cy="40" r="20" fill="#bed49b"/><path d="M0 120Q95 82 160 105T340 59v91H0" fill="#376c50"/><path d="M0 148Q120 94 219 114T340 80v70H0" fill="#538564"/><g stroke="#bed6ad" fill="none" stroke-width="2"><path d="m103 113 0-36 24-16 25 16v31m-52-30 26-20 29 19m-42 33V88h22v22m-22-22 22 22m0-22-22 22M170 110V60q7-13 15 0v50m-15-46h15"/><path d="M30 150q120-53 310-33m-240 33q104-38 240-24m-156 24q80-20 156-13"/></g></svg></section><div id="app"></div></main><dialog id="dlg"></dialog><div id="toast" class="toast" role="status" hidden></div><script>
+'use strict';
+const $=id=>document.getElementById(id), key='milkbook-ledger-v1', esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])), uid=()=>crypto.randomUUID(), localDate=(d=new Date())=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'),money=p=>'₹'+(p/100).toLocaleString('en-IN',{minimumFractionDigits:2}),display=d=>new Date(d+'T12:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+let db=JSON.parse(localStorage.getItem(key)||'{"customers":[],"records":[]}'),page=0,day=localDate(),billCustomer='',from=day.slice(0,8)+'01',to=day,language='en',historyId='',timer;
+const pages=['Milk entry','Customers','Edit entries','View entries','Customer history','Calculate bill'],subs=['Record milk deliveries and customer payments.','Manage customers in your dairy ledger.','Update a milk delivery or payment.','Review deliveries and payments for a selected date.','Follow charges, payments and balances for each customer.','Prepare an itemised bill for a custom date range.'];
+function note(s){$('toast').textContent=s;$('toast').hidden=false;clearTimeout(timer);timer=setTimeout(()=>$('toast').hidden=true,3500)}
+const hosted=location.protocol==='https:';
+let revision='',ready=!hosted;
+function assignNumbers(state){
+ let last=state.customers.reduce((n,c)=>Math.max(n,Number(c.number)||0),0);
+ for(const c of state.customers)if(!c.number){
+  if(last>=99999)throw Error('All five-digit customer IDs have been assigned.');
+  c.number=String(++last).padStart(5,'0');
+ }
+ return state;
+}
+function label(c){return c.name+' · '+c.number}
+function normal(s){return s.trim().normalize('NFKC').replace(/\s+/g,' ').toLocaleLowerCase()}
+async function readServer(){
+ const res=await fetch('/api/ledger',{cache:'no-store'});
+ if(!res.ok)throw Error('Customer storage unavailable');
+ return res.json();
+}
+async function writeServer(state,version){
+ const res=await fetch('/api/ledger',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({version,state})});
+ if(res.status===409)return false;
+ if(!res.ok)throw Error('Could not save to customer storage');
+ revision=(await res.json()).version;
+ return true;
+}
+async function initialize(){
+ if(!hosted){assignNumbers(db);localStorage.setItem(key,JSON.stringify(db));render();return}
+ try{
+  const legacy=JSON.parse(localStorage.getItem(key)||'{"customers":[],"records":[]}');
+  for(let attempt=0;attempt<5;attempt++){
+   const data=await readServer(),state=data.state;
+   const importing=!localStorage.getItem(key+'-imported');
+   if(importing){
+    const ids=new Set(state.customers.map(c=>c.id)),entries=new Set(state.records.map(r=>r.id));
+    for(const c of legacy.customers)if(!ids.has(c.id)){const copy={...c};delete copy.number;state.customers.push(copy)}
+    for(const r of legacy.records)if(!entries.has(r.id))state.records.push(r);
+   }
+   const missing=state.customers.some(c=>!c.number);
+   assignNumbers(state);
+   if((missing||(importing&&legacy.records.length))&&!await writeServer(state,data.version))continue;
+   db=state;ready=true;localStorage.setItem(key+'-imported','1');render();return;
+  }
+  throw Error();
+ }catch{$('app').innerHTML='<div class="card"><p>Could not load customer storage. Your existing records are preserved.</p><button class="btn" onclick="initialize()">Retry</button></div>'}
+}
+async function save(change){
+ async function commit(){
+  if(!ready)return false;
+  const snapshot=hosted?await readServer():{state:JSON.parse(localStorage.getItem(key)||JSON.stringify(db))};
+  const next=assignNumbers(snapshot.state);
+  if(change(next)===false)return false;
+  assignNumbers(next);
+  if(hosted){
+   if(!await writeServer(next,snapshot.version)){db=(await readServer()).state;note('The ledger changed. Review and try again.');return false}
+  }else localStorage.setItem(key,JSON.stringify(next));
+  db=next;return true;
+ }
+ try{return navigator.locks?await navigator.locks.request(key,commit):await commit()}
+ catch(error){note(error.message||'Could not save. Try again.');return false}
+}
+function saveRecord(state,record,form){
+ if(!state.customers.some(c=>c.id===record.customer&&!c.removed)){note('Customer is archived. Find the account in search to resume.');return false}
+ const duplicate=record.type==='Milk'&&state.records.some(existing=>
+  existing.type==='Milk'&&existing.id!==record.id&&existing.customer===record.customer&&
+  existing.date===record.date&&existing.shift===record.shift);
+ if(duplicate){
+  let warning=form.querySelector('[data-duplicate]');
+  if(!warning){
+   warning=document.createElement('p');
+   warning.dataset.duplicate='';
+   warning.setAttribute('role','alert');
+   form.insertBefore(warning,form.querySelector('.btn'));
+  }
+  warning.textContent='A '+record.shift.toLowerCase()+' milk entry already exists for '+name(record.customer)+' on '+display(record.date)+'. Use Edit entries to change it.';
+  return false;
+ }
+ const index=state.records.findIndex(existing=>existing.id===record.id);
+ if(index<0)state.records.push(record);
+ else state.records[index]=record;
+ return true;
+}window.addEventListener('storage',e=>{if(!hosted&&e.key===key&&e.newValue){db=assignNumbers(JSON.parse(e.newValue));render()}});
+const name=id=>db.customers.find(c=>c.id===id)?.name||'',ordered=rs=>rs.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.created.localeCompare(b.created)),sum=(rs,t)=>rs.filter(r=>r.type===t).reduce((a,r)=>a+r.amount,0),bal=rs=>sum(rs,'Milk')-sum(rs,'Payment'),qty=n=>{const a=Math.floor(n),b=['','¼','½','¾'][Math.round((n-a)*4)];return (a||!b?String(a):'')+b+' L'};
+function opts(id='',all=false){return '<option value="">Select customer</option>'+db.customers.filter(c=>!c.removed).sort((a,b)=>a.name.localeCompare(b.name)).map(c=>'<option value="'+c.id+'" '+(id===c.id?'selected':'')+'>'+esc(label(c))+'</option>').join('')}
+function field(label,html){return '<label>'+label+html+'</label>'}
+const dateIn=(n,v)=>'<input required type="date" name="'+n+'" value="'+v+'">',select=(n,options)=>'<select required name="'+n+'">'+options+'</select>',head=(i,s)=>'<div class="heading"><span class="icon" aria-hidden="true">'+i+'</span><h2>'+s+'</h2></div>';
+function form(type,r={}){const milk=type==='Milk',shift=r.shift||(new Date().getHours()<12?'Morning':'Evening');return '<form data-type="'+type+'" data-id="'+(r.id||'')+'"><div class="'+(milk?'row':'')+'">'+field('Date',dateIn('date',r.date||localDate()))+(milk?'<div><label>Session<span class="segments">'+['Morning','Evening'].map(s=>'<button type="button" aria-pressed="'+(shift===s)+'" class="'+(shift===s?'active':'')+'" data-shift="'+s+'">'+(s==='Morning'?'☼ ':'☾ ')+s+'</button>').join('')+'</span></label><input type="hidden" name="shift" value="'+shift+'"></div>':'')+'</div><div class="split"><label style="margin:0">Customer</label>'+(!r.id?'<button type="button" class="plain" data-add>＋ Add customer</button>':'')+'</div>'+select('customer',opts(r.customer)).replace('<select','<select aria-label="Customer" style="margin-bottom:16px"')+'<div class="'+(milk?'row':'')+'">'+(milk?field('Milk quantity',select('quantity',Array.from({length:80},(_,i)=>{const n=(i+1)/4;return '<option value="'+n+'" '+(n===(r.quantity||1)?'selected':'')+'>'+qty(n)+'</option>'}).join(''))):'')+field(milk?'Delivery amount (₹)':'Payment received (₹)','<input type="number" required min=".01" max="99999999" step=".01" name="amount" placeholder="0.00" value="'+(r.amount?r.amount/100:'')+'">')+'</div><button class="btn wide '+(milk?'':'secondary')+'">'+(r.id?'Save changes':milk?'Save milk entry':'Record payment')+'</button></form>'}
+function table(rs,edit=false){return rs.length?'<div class="tablewrap"><table><thead><tr>'+['Date','Customer','Entry','Quantity','Amount',...(edit?['Action']:[])].map(s=>'<th>'+s+'</th>').join('')+'</tr></thead><tbody>'+rs.map(r=>'<tr><td>'+display(r.date)+'</td><td>'+esc(label(db.customers.find(c=>c.id===r.customer)))+'</td><td>'+(r.shift||r.type)+'</td><td>'+(r.quantity?qty(r.quantity):'—')+'</td><td>'+money(r.amount)+'</td>'+(edit?'<td><button class="plain" data-edit="'+r.id+'">Edit</button></td>':'')+'</tr>').join('')+'</tbody></table></div>':'<div class="empty">No entries for this selection.</div>'}
+const metric=(title,value)=>'<div class="metric"><span class="muted">'+title+'</span><strong>'+value+'</strong></div>',balanceLabel=n=>n<0?'Surplus credit':n===0?'Settled':'Pending';
+function activeRecords(){const ids=new Set(db.customers.filter(c=>!c.removed).map(c=>c.id));return db.records.filter(r=>ids.has(r.customer))}
+function render(){if(!db.customers.some(c=>c.id===historyId&&!c.removed))historyId='';if(!db.customers.some(c=>c.id===billCustomer&&!c.removed))billCustomer='';const rs=ordered(activeRecords()),app=$('app');$('title').textContent=pages[page];$('subtitle').textContent=subs[page];$('today').textContent=display(localDate());if(page===0){app.innerHTML='<div class="grid"><div class="card">'+head('♧','Milk delivery')+form('Milk')+'</div><div class="card">'+head('₹','Customer payment')+form('Payment')+'</div></div><div class="card"><div class="split"><h2>Today’s entries</h2><span class="muted">'+display(localDate())+'</span></div>'+table(rs.filter(r=>r.date===localDate()).reverse())+'</div>';return}
+let content='';if(page===1){content='<div class="split"><h2>Customer list</h2><button class="btn" data-add>Add customer</button></div>'+db.customers.filter(c=>!c.removed).map(c=>'<div class="split" style="border-bottom:1px solid #dae3dc;padding:14px 0"><span>'+esc(label(c))+'</span><button class="plain" data-remove="'+c.id+'">Remove</button></div>').join('')+(db.customers.some(c=>!c.removed)?'':'<p class="empty">Add your first customer to start recording milk.</p>')}
+if(page===2||page===3){content=field('Entry date',dateIn('day',day)) +table(rs.filter(r=>r.date===day).reverse(),page===2)}
+if(page===4){const records=rs.filter(r=>r.customer===historyId),b=bal(records);content=field('Customer',select('history',opts(historyId,true)))+(historyId?'<div class="totals">'+metric('Milk charges',money(sum(records,'Milk')))+metric('Payments',money(sum(records,'Payment')))+metric(balanceLabel(b),money(Math.abs(b)))+'</div>'+monthHistory(records)+table(records):'')}
+if(page===5){content='<div class="row">'+field('Customer',select('billCustomer',opts(billCustomer,true)))+field('Bill language',select('language','<option value="en">English</option><option value="ta" '+(language==='ta'?'selected':'')+'>Tamil · தமிழ்</option>'))+field('From date',dateIn('from',from))+field('To date',dateIn('to',to))+'</div>';if(from&&to&&from<=to)content+='<div style="margin:4px 0 20px"><button class="btn secondary" id="downloadAll">Calculate whole bill</button><p class="muted">Download all customer bills in one printable PDF.</p></div>';if(billCustomer&&from&&to&&from<=to){const b=statement();content+=billBreakdown(b)+table(b.rows)+'<button class="btn" id="download">Download PDF</button>'}else if(from>to)content+='<p>Choose an end date on or after the start date.</p>'}
+app.innerHTML='<div class="card">'+content+'</div>'}
+function monthName(month,lang='en'){
+ return new Date(month+'-01T12:00').toLocaleDateString(lang==='ta'?'ta-IN':'en-IN',{month:'long',year:'numeric'});
+}
+function monthlyLedger(records){
+ const months=new Map();
+ for(const r of ordered(records)){
+  const month=r.date.slice(0,7);
+  if(!months.has(month))months.set(month,{month,charges:0,paid:0});
+  months.get(month)[r.type==='Milk'?'charges':'paid']+=r.amount;
+ }
+ let available=sum(records,'Payment'),balance=0;
+ return Array.from(months.values(),m=>{
+  const applied=Math.min(available,m.charges);
+  available-=applied;
+  balance+=m.charges-m.paid;
+  return {...m,outstanding:m.charges-applied,closing:balance};
+ });
+}
+function monthHistory(records){
+ if(!records.length)return '';
+ const rows=monthlyLedger(records).map(m=>'<tr><td>'+monthName(m.month)+'</td><td>'+money(m.charges)+'</td><td>'+money(m.paid)+'</td><td>'+money(Math.abs(m.closing))+' · '+balanceLabel(m.closing)+'</td><td>'+money(m.outstanding)+'</td></tr>').join('');
+ return '<h2>Monthly payment history</h2><p class="muted">Payments settle the oldest charges first. Remaining shows the unpaid milk charges from each month after all recorded payments.</p><div class="tablewrap"><table><thead><tr><th>Month</th><th>Milk charges</th><th>Payments received</th><th>Closing balance</th><th>Remaining</th></tr></thead><tbody>'+rows+'</tbody></table></div><h2 style="margin:22px 0 10px">Entry history</h2>';
+}
+function statement(customerId=billCustomer, recordsSource=db.records){
+ const records=ordered(recordsSource.filter(r=>r.customer===customerId&&r.date<=to));
+ const earlier=records.filter(r=>r.date<from),rows=records.filter(r=>r.date>=from);
+ const open=bal(earlier),charges=sum(rows,'Milk'),paid=sum(rows,'Payment');
+ return {open,rows,charges,paid,close:open+charges-paid,openingMonths:monthlyLedger(earlier),closingMonths:monthlyLedger(records)};
+}
+function billLines(b,lang){
+ const t=(en,ta)=>lang==='ta'?ta:en,lines=[];
+ for(const m of b.openingMonths.filter(m=>m.outstanding)){
+  lines.push([monthName(m.month,lang)+' '+t('pending','நிலுவை'),money(m.outstanding)]);
+ }
+ const credit=Math.max(0,-b.open),gross=Math.max(0,b.open)+b.charges;
+ lines.push([t('Milk charges for current bill','இந்த பில்லுக்கான பால் கட்டணம்'),money(b.charges)],
+  [t('Total amount','மொத்தத் தொகை'),money(gross)]);
+ if(credit)lines.push([t('Less surplus credit brought forward','கழிக்கப்படும் முந்தைய உபரித் தொகை'),'− '+money(credit)]);
+ lines.push([t('Amount paid','செலுத்தப்பட்ட தொகை'),money(b.paid)]);
+ if(b.close>0)lines.push([t('Amount due','செலுத்த வேண்டிய தொகை'),money(b.close)]);
+ else if(b.close<0)lines.push([t('Surplus','உபரித் தொகை'),money(-b.close)]);
+ else lines.push([t('Settled','நிலுவை இல்லை'),'']);
+ return lines;
+}
+function billBreakdown(b){
+ const line=([label,value])=>'<tr><td>'+label+'</td><td>'+value+'</td></tr>';
+ const outstanding=b.closingMonths.filter(m=>m.outstanding).map(m=>[monthName(m.month),money(m.outstanding)]);
+ return '<h2>Bill calculation</h2><table><tbody>'+billLines(b,'en').map(line).join('')+'</tbody></table>'+
+ (outstanding.length?'<h2 style="margin-top:20px">Pending by month at period end</h2><table><tbody>'+outstanding.map(line).join('')+'</tbody></table>':'')+'<h2 style="margin:20px 0 10px">Daily entries</h2>';
+}$('menu').innerHTML=pages.map((s,i)=>'<button data-page="'+i+'">'+s+'</button>').join('');
+$('toggle').onclick=()=>{$('menu').hidden=!$('menu').hidden;$('toggle').setAttribute('aria-expanded',String(!$('menu').hidden))};
+function modal(body){if($('dlg').open)$('dlg').close();$('dlg').innerHTML=body+'<button type="button" class="plain" data-close>Cancel</button>';$('dlg').showModal()}
+let sourceForm;
+function openAdd(){
+ modal('<h2>Add customer</h2><form id="newcustomer">'+field('Customer name','<input name="name" required maxlength="80" autofocus autocomplete="off">')+'<div id="matches"></div><button class="btn">Add customer</button></form>');
+}
+function customerButton(c,action){
+ const balance=bal(db.records.filter(r=>r.customer===c.id));
+ return '<button type="button" class="match" data-'+action+'="'+c.id+'">'+esc(label(c))+'<br><span class="muted">'+(c.removed?'Archived':'Active')+' · '+balanceLabel(balance)+' '+money(Math.abs(balance))+'</span></button>';
+}
+function searchCustomers(query){
+ const q=normal(query);
+ return q?db.customers.filter(c=>normal(c.name).includes(q)||c.number===q.padStart(5,'0')||c.number.includes(q)):[];
+}
+function updateSearch(){
+ const results=$('results'),query=$('lookup').value.trim();
+ results.hidden=!query;
+ if(query)results.innerHTML=searchCustomers(query).map(c=>customerButton(c,'profile')).join('')||'<p>No matching customer.</p>';
+}
+$('lookup').addEventListener('input',updateSearch);
+$('lookup').addEventListener('focus',async()=>{
+ if(hosted&&ready){try{db=(await readServer()).state}catch{note('Could not refresh customer search.');return}}
+ updateSearch();
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.lookup'))$('results').hidden=true});
+$('lookup').addEventListener('keydown',e=>{if(e.key==='Escape')$('results').hidden=true});
+function matchesFor(n){return db.customers.filter(c=>normal(c.name)===normal(n))}
+function showMatches(n){
+ const matches=matchesFor(n);
+ $('matches').innerHTML=matches.length?'<p>Choose the existing account to continue with its ID.</p>'+matches.map(c=>customerButton(c,'resume')).join(''):'';
+}
+document.addEventListener('input',e=>{if(e.target.form?.id==='newcustomer')showMatches(e.target.value)});
+function finishCustomer(id,message){
+ $('dlg').close();$('lookup').value='';$('results').hidden=true;
+ if(sourceForm?.isConnected){document.querySelectorAll('select[name=customer]').forEach(x=>x.innerHTML=opts(x.form===sourceForm?id:x.value))}
+ else render();
+ note(message);sourceForm=null;
+}
+async function createCustomer(value,confirmed){
+ const n=value.trim();if(!n){note('Enter a customer name.');return}
+ const id=uid();let conflicts=false;
+ const saved=await save(state=>{
+  if(!confirmed&&state.customers.some(c=>normal(c.name)===normal(n))){db=state;conflicts=true;return false}
+  state.customers.push({id,name:n,createdAt:new Date().toISOString()});
+ });
+ if(conflicts){modal('<h2>Customer name already exists</h2><p>Continue with an account below, or confirm this is a different person to assign a new ID.</p>'+matchesFor(n).map(c=>customerButton(c,'resume')).join('')+'<button class="btn" data-newname="'+esc(n)+'">Confirm new customer</button>');return}
+ if(saved)finishCustomer(id,'Customer added · '+db.customers.find(c=>c.id===id).number);
+}
+async function resumeCustomer(id){
+ if(!await save(state=>{const c=state.customers.find(c=>c.id===id);if(!c)return false;c.removed=false;delete c.archivedAt}))return;
+ finishCustomer(id,'Continuing with '+label(db.customers.find(c=>c.id===id)));
+}
+function showProfile(id){
+ const c=db.customers.find(c=>c.id===id);if(!c)return;
+ $('results').hidden=true;
+ const rows=ordered(db.records.filter(r=>r.customer===id)),balance=bal(rows);
+ modal('<h2>'+esc(label(c))+'</h2><p>'+(c.removed?'Archived account':'Active account')+(c.archivedAt?' · '+display(localDate(new Date(c.archivedAt))):'')+'</p><div class="totals">'+metric(balanceLabel(balance),money(Math.abs(balance)))+'</div>'+monthHistory(rows)+table(rows)+(c.removed?'<button class="btn" data-resume="'+id+'">Resume this customer ID</button>':''));
+}
+let removalBalance;
+function confirmRemoval(id){
+ const c=db.customers.find(c=>c.id===id);if(!c)return;
+ removalBalance=bal(db.records.filter(r=>r.customer===id));
+ const warning=removalBalance>0?'This customer owes you '+money(removalBalance)+'.':removalBalance<0?'You owe this customer '+money(-removalBalance)+' in surplus credit.':'This account is settled.';
+ modal('<h2>Remove '+esc(label(c))+'?</h2><div '+(removalBalance?'class="warning" role="alert"':'')+'><strong>'+(removalBalance?'⚠ ':'')+warning+'</strong></div><p>This removes the account from daily entries, history and bills. Its records stay in the archive, searchable by name or ID.</p><button class="btn danger" data-confirm="'+id+'">Confirm removal</button>');
+}
+async function archiveCustomer(id){
+ let changed=false;
+ const saved=await save(state=>{
+  const c=state.customers.find(c=>c.id===id);if(!c)return false;
+  if(removalBalance!==bal(state.records.filter(r=>r.customer===id))){db=state;changed=true;return false}
+  c.removed=true;c.archivedAt=new Date().toISOString();
+ });
+ if(changed){confirmRemoval(id);note('Balance changed. Review before removing.');return}
+ if(saved){$('dlg').close();$('lookup').value='';$('results').hidden=true;render();note('Customer moved to archive')}
+}
+
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(b!==$('toggle')){$('menu').hidden=true;$('toggle').setAttribute('aria-expanded','false')}if(!b)return;const d=b.dataset;if(d.page!==undefined){page=+d.page;render()}if(d.close!==undefined)$('dlg').close();if(d.add!==undefined){sourceForm=b.closest('form');openAdd()}
+ if(d.remove)confirmRemoval(d.remove);
+ if(d.confirm)await archiveCustomer(d.confirm);
+ if(d.profile){sourceForm=null;showProfile(d.profile)}
+ if(d.resume)await resumeCustomer(d.resume);
+ if(d.newname)await createCustomer(d.newname,true);
+ if(d.shift){b.form.elements.shift.value=d.shift;b.parentElement.querySelectorAll('button').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b))})}if(d.edit){const r=db.records.find(x=>x.id===d.edit);modal('<h2>Edit '+r.type.toLowerCase()+' entry</h2>'+form(r.type,r))}if(b.id==='download')downloadBill();if(b.id==='downloadAll')downloadBill(true)});
+document.addEventListener('change',e=>{const {name:n,value:v}=e.target;if(n==='day')day=v;else if(n==='history')historyId=v;else if(n==='billCustomer')billCustomer=v;else if(n==='from')from=v;else if(n==='to')to=v;else if(n==='language')language=v;else return;render()});
+document.addEventListener('submit',async e=>{e.preventDefault();const f=e.target,data=Object.fromEntries(new FormData(f));if(f.id==='newcustomer'){await createCustomer(data.name,false);return}
+const old=db.records.find(r=>r.id===f.dataset.id),r={id:old?.id||uid(),created:old?.created||new Date().toISOString(),updated:new Date().toISOString(),customer:data.customer,date:data.date,type:f.dataset.type,amount:Math.round(+data.amount*100),quantity:+data.quantity||0,shift:data.shift||''};if(!await save(s=>saveRecord(s,r,f)))return;f.querySelector('[data-duplicate]')?.remove();if($('dlg').open)$('dlg').close();if(page===0){f.elements.amount.value='';const last=$('app').lastElementChild;last.querySelector('.tablewrap,.empty').outerHTML=table(ordered(activeRecords().filter(x=>x.date===localDate())).reverse())}else render();note(old?'Changes saved':r.type==='Milk'?'Milk entry saved':'Payment recorded')});
+</script>
+<script>
+function renderBillPages(customer,b,pages){
+ const tamil=language==='ta',t=(en,ta)=>tamil?ta:en;
+ const rows=b.rows.map(r=>[r.date,r.type==='Payment'?t('Payment','செலுத்தியது'):r.shift==='Morning'?t('Morning','காலை'):t('Evening','மாலை'),r.quantity?(String(r.quantity)+' '+t('L','லி')):'—',r.type==='Milk'?money(r.amount):'—',r.type==='Payment'?money(r.amount):'—']);
+ const summary=billLines(b,language);
+ const remaining=b.closingMonths.filter(m=>m.outstanding);
+ if(!tamil&&remaining.length)summary.push([t('Pending by month at period end','கால இறுதியில் மாத வாரியான நிலுவை'),''],...remaining.map(m=>[monthName(m.month,language),money(m.outstanding)]));
+ const sheets=[];
+ for(let j=0;j<rows.length;j+=23)sheets.push({kind:'entries',items:rows.slice(j,j+23)});
+ const last=sheets[sheets.length-1];
+ if(last&&last.items.length+summary.length+2<=23)last.summary=summary;
+ else for(let j=0;j<summary.length;j+=23)sheets.push({kind:'summary',items:summary.slice(j,j+23)});
+ const count=sheets.length;
+ for(let i=0;i<count;i++){
+ const c=document.createElement('canvas');c.width=1240;c.height=1754;const g=c.getContext('2d');g.fillStyle='white';g.fillRect(0,0,c.width,c.height);
+ function line(s,x,y,size=28,width=1090){g.fillStyle='#173c2b';g.font=size+'px "Nirmala UI","Noto Sans Tamil",sans-serif';g.fillText(s,x,y,width)}
+ line(t('Milkbook · Milk bill','மில்க்புக் · பால் கட்டணப் பட்டியல்'),70,110,46);
+ line(t('Customer','வாடிக்கையாளர்')+'  '+label(customer),70,182);
+ line(t('Billing period','கட்டணக் காலம்')+'  '+from+'  —  '+to,70,240);
+ const xs=[70,310,570,745,975],widths=[220,240,154,208,200];
+ function cells(a,y){a.forEach((s,j)=>line(s,xs[j],y,25,widths[j]))}
+ const sheet=sheets[i];
+ function summaryAt(items,y){
+  line(t('Bill calculation','கட்டணக் கணக்கீடு'),70,y,32);
+  items.forEach(([label,value],j)=>{line(label,70,y+56+j*53,27,760);line(value,875,y+56+j*53,27,300)});
+ }
+ if(sheet.kind==='entries'){
+  g.fillStyle='#e8f2e9';g.fillRect(55,285,1130,63);cells([t('Date','தேதி'),t('Entry','பதிவு'),t('Quantity','அளவு'),t('Charge','கட்டணம்'),t('Paid','செலுத்தியது')],327);
+  sheet.items.forEach((r,j)=>{cells(r,395+j*51);g.fillStyle='#dde5de';g.fillRect(60,410+j*51,1120,1)});
+  if(sheet.summary)summaryAt(sheet.summary,425+sheet.items.length*51);
+ }else summaryAt(sheet.items,327); line(t('Page','பக்கம்')+' '+(i+1)+' / '+count,70,1705,22);
+ pages.push(Uint8Array.from(atob(c.toDataURL('image/jpeg',.92).split(',')[1]),ch=>ch.charCodeAt(0)));
+ c.width=c.height=0;
+ }
+}
+function downloadBill(all=false){
+ const pages=[];
+ if(all){
+  const byCustomer=new Map();
+  for(const record of db.records){
+   if(record.date>to)continue;
+   if(!byCustomer.has(record.customer))byCustomer.set(record.customer,[]);
+   byCustomer.get(record.customer).push(record);
+  }
+  const customers=db.customers.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  for(const customer of customers){
+   const bill=statement(customer.id,byCustomer.get(customer.id)||[]);
+   if(customer.removed)continue;
+   renderBillPages(customer,bill,pages);
+  }
+ }else{
+  const customer=db.customers.find(c=>c.id===billCustomer);
+  if(customer)renderBillPages(customer,statement(),pages);
+ }
+ if(!pages.length){note('No customers to bill for these dates.');return}
+ const count=pages.length;
+ const enc=new TextEncoder(),parts=[],offsets=[0];let length=0;
+ function add(v){const a=typeof v==='string'?enc.encode(v):v;parts.push(a);length+=a.length}
+ function obj(id,body){offsets[id]=length;add(id+' 0 obj\n');add(body);add('\nendobj\n')}
+ add('%PDF-1.4\n');obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Count '+count+' /Kids ['+pages.map((_,i)=>(3+i*3)+' 0 R').join(' ')+'] >>');
+ pages.forEach((img,i)=>{const id=3+i*3;obj(id,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im '+(id+1)+' 0 R >> >> /Contents '+(id+2)+' 0 R >>');offsets[id+1]=length;add((id+1)+' 0 obj\n<< /Type /XObject /Subtype /Image /Width 1240 /Height 1754 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+img.length+' >>\nstream\n');add(img);add('\nendstream\nendobj\n');const draw='q 595 0 0 842 0 0 cm /Im Do Q\n';obj(id+2,'<< /Length '+draw.length+' >>\nstream\n'+draw+'endstream')});
+ const start=length;add('xref\n0 '+offsets.length+'\n0000000000 65535 f \n');offsets.slice(1).forEach(n=>add(String(n).padStart(10,'0')+' 00000 n \n'));add('trailer\n<< /Size '+offsets.length+' /Root 1 0 R >>\nstartxref\n'+start+'\n%%EOF');
+ const url=URL.createObjectURL(new Blob(parts,{type:'application/pdf'})),a=document.createElement('a');a.href=url;a.download='Milkbook-'+(all?'All-customers':name(billCustomer))+'-'+from+'-'+to+'.pdf';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+initialize();
+</script></body></html>
+
+
+
+
+
